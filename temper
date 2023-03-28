@@ -1,0 +1,86 @@
+int main() {
+int t;
+cin>>t;
+while(t--){
+   int n;
+   cin>>n;
+   vector<int> a;
+   vector<int> b;
+   
+  // first array input
+   for(int i=0;i<n;i++){
+    int temp;
+    cin>>temp;
+    a.push_back(temp);
+   }
+
+   for(int i=0;i<n;i++){
+    int temp;
+    cin>>temp;
+    b.push_back(temp);
+   }
+       
+ 
+   
+   for(int i=0;i<n;i++){
+      // if its lesser we are going to swap it
+       if(a[i] < b[i])
+           swap(a[i],b[i]);
+       
+   }
+        
+
+       
+       
+
+    
+   vector<vector<int>> arr( n , vector<int> (2));
+   
+    for(int i=0 ; i < n ; i++){
+        arr[i][0]=a[i];
+        arr[i][1]=b[i];
+    }
+
+    sort(arr.begin(),arr.end());
+
+       
+
+    int maximum = arr[n-1][0];
+    int minimum = arr[0][0];
+   
+    int ans = maximum - minimum;
+   
+  int minA[n] , maxA[n] ,lastMin[n] , lastMax[n];
+ 
+  minA[0] = arr[0][0];
+  lastMin[n-1] = arr[n-1][1];
+ 
+  maxA[0] = arr[0][0];
+  lastMax[n-1] = arr[n-1][1];
+ 
+  for(int i = 1 ; i < n ; i++){
+      minA[i] = min(minA[i-1] , arr[i][0]);
+      maxA[i] = max(maxA[i-1] , arr[i][0]);
+  }
+     
+ for(int i = n-2 ; i >= 0 ; i--){
+     lastMax[i] = max(lastMax[i+1] , arr[i][1]);
+     lastMin[i] = min(lastMin[i+1] , arr[i][1]);
+ }
+ 
+ for(int i = n-1 ; i >=0 ; i--){
+     swap(arr[i][0] , arr[i][1]);
+       if( i != 0 ){
+           maximum=max(maxA[i-1],lastMax[i]);
+           minimum=min(minA[i-1],lastMin[i]);
+        }
+       else if(i==0){
+           maximum=lastMax[0];
+           minimum=lastMin[0];
+        }
+    ans = min(ans,maximum-minimum);
+ }
+ cout << ans<<endl;
+}
+return 0;
+}
